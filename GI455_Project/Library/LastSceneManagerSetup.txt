@@ -1,5 +1,5 @@
 sceneSetups:
-- path: Assets/ProgramChat/Scenes/ProgramChat.unity
+- path: Assets/ProgramChatWithJson/Scenes/Chat.unity
   isLoaded: 1
   isActive: 1
   isSubScene: 0

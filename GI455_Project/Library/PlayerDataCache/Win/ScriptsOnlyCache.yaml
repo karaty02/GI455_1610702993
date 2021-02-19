@@ -1,8 +1,7 @@
 ScriptsOnlyBuild:
   usedScripts:
     Assembly-CSharp.dll:
-    - LoginP
-    - ProgramChat.WebsocketConnection
+    - ChatWebSocketWithJson.WebSocketConnection
     Unity.Rider.Editor.dll:
     - Packages.Rider.Editor.UnitTesting.CallbackData
     UnityEditor.TestRunner.dll:
@@ -17,9 +16,10 @@ ScriptsOnlyBuild:
     - UnityEngine.UI.GraphicRaycaster
     - UnityEngine.UI.Image
     - UnityEngine.UI.InputField
+    - UnityEngine.UI.Mask
     - UnityEngine.UI.Text
   sceneClasses:
-    Assets/ProgramChat/Scenes/ProgramChat.unity:
+    Assets/ProgramChatWithJson/Scenes/Chat.unity:
     - Class: 1
       Script: {instanceID: 0}
     - Class: 4
@@ -39,25 +39,25 @@ ScriptsOnlyBuild:
     - Class: 108
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 11256}
+      Script: {instanceID: 11232}
     - Class: 114
-      Script: {instanceID: 11414}
+      Script: {instanceID: 11252}
     - Class: 114
-      Script: {instanceID: 11454}
+      Script: {instanceID: 11448}
     - Class: 114
-      Script: {instanceID: 11842}
+      Script: {instanceID: 11748}
     - Class: 114
-      Script: {instanceID: 12226}
+      Script: {instanceID: 11840}
+    - Class: 114
+      Script: {instanceID: 12224}
     - Class: 114
       Script: {instanceID: 12414}
     - Class: 114
-      Script: {instanceID: 12704}
+      Script: {instanceID: 12430}
     - Class: 114
-      Script: {instanceID: 13054}
+      Script: {instanceID: 12708}
     - Class: 114
-      Script: {instanceID: 13498}
-    - Class: 114
-      Script: {instanceID: 21534}
+      Script: {instanceID: 13060}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -75,6 +75,12 @@ ScriptsOnlyBuild:
     - Class: 224
       Script: {instanceID: 0}
   scriptHashData:
+  - hash:
+      serializedVersion: 2
+      Hash: aeb62f729c52c814dec86c47dcac1471
+    assemblyName: UnityEngine.UI.dll
+    namespaceName: UnityEngine.UI
+    className: Text
   - hash:
       serializedVersion: 2
       Hash: 4bc4346a71a8df53a6b106f68ef3a190
@@ -123,12 +129,6 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: ActivationTrack
-  - hash:
-      serializedVersion: 2
-      Hash: aeb62f729c52c814dec86c47dcac1471
-    assemblyName: UnityEngine.UI.dll
-    namespaceName: UnityEngine.UI
-    className: Text
   - hash:
       serializedVersion: 2
       Hash: 499fd23433e68e265d153aa6b95d0047
@@ -317,6 +317,12 @@ ScriptsOnlyBuild:
     className: RawImage
   - hash:
       serializedVersion: 2
+      Hash: 6182f6543dfd4c384ea8b99623183f2e
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: ChatWebSocket_
+    className: wbSocketCon
+  - hash:
+      serializedVersion: 2
       Hash: 5ad4aa237d47ac2bab17bacb672edf7a
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.UI
@@ -333,6 +339,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: SignalReceiver
+  - hash:
+      serializedVersion: 2
+      Hash: 7195636224f3b5c1370de9286fa84cb6
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: ChatWebSocketWithJson
+    className: WebSocketConnection
   - hash:
       serializedVersion: 2
       Hash: 5ad4aa237d47ac2bab17bacb672edf7a
@@ -405,6 +417,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.TextMeshPro.dll
     namespaceName: TMPro
     className: TMP_StyleSheet
+  - hash:
+      serializedVersion: 2
+      Hash: 01ba2a03d319109f14aa7b30cd93aac1
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: LoginP
   - hash:
       serializedVersion: 2
       Hash: 8cd1cbba27f3cb1717254f668e9e0d5a
@@ -507,19 +525,7 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: PlayableTrack
-  - hash:
-      serializedVersion: 2
-      Hash: 8d7299d280af2310c6fe67999fed4b7c
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: ProgramChat
-    className: WebsocketConnection
-  - hash:
-      serializedVersion: 2
-      Hash: 01ba2a03d319109f14aa7b30cd93aac1
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: LoginP
   platform: 5
   scenePathNames:
-  - Assets/ProgramChat/Scenes/ProgramChat.unity
-  playerPath: D:/Chat/GI455_Project_1610702993.exe
+  - Assets/ProgramChatWithJson/Scenes/Chat.unity
+  playerPath: C:/Users/dom_o/Desktop/New folder (2)/GI455_Project_1610702993.exe
