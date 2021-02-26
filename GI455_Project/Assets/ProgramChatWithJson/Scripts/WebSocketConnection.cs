@@ -13,19 +13,54 @@ namespace ChatWebSocketWithJson
         {
             public string eventName;
             public string data;
-            public SocketEvent(string eventName, string data)
+            public string idUser;
+            public string userName;
+            public string passWord;
+            public string textUInput;
+            public SocketEvent(string eventName, string data, string idUser, string userName, string passWord, string textUInput)
             {
+                
                 this.eventName = eventName;
                 this.data = data;
+                this.idUser = idUser;
+                this.userName = userName;
+                this.passWord = passWord;
+                this.textUInput = textUInput;
             }
         }
-        public GameObject popupCereate;
-        public GameObject popupJoin;
         public GameObject closeMenu;
         public GameObject rootConnection;
         public GameObject rootMessenger;
 
-        public InputField inputUsername;
+        public GameObject regiterInput;
+        public GameObject loginInput;
+        public GameObject popupOk;
+        public Text Oktext;
+        public InputField idInput;
+        //public InputField passInputOne;
+        //public InputField passInputTwo;
+        public InputField nameInput;
+        //Login Input
+        public InputField IDnameLogin;
+        public InputField PassLogin;
+
+
+        //Regiter Input
+        public InputField nameIP;
+        public InputField IDnameIP;
+        public InputField passusernameIP;
+        public InputField REpassusernameIP;
+
+        //Get Name Sql
+        public Text Getname;
+
+        //send
+        string sendM;
+
+        //join Room Name
+        string NameroomChat;
+        public Text ShowRoomname;
+
         public InputField inputText;
         public Text sendText;
         public Text receiveText;
@@ -61,7 +96,8 @@ namespace ChatWebSocketWithJson
 
             rootConnection.SetActive(false);
             rootMessenger.SetActive(false);
-            closeMenu.SetActive(true);
+            closeMenu.SetActive(false);
+            loginInput.SetActive(true);
 
 
             //CreateRoom("TestRoom01");
@@ -77,7 +113,7 @@ namespace ChatWebSocketWithJson
         {
             if (ws.ReadyState == WebSocketState.Open)
             {
-                SocketEvent socketEvent = new SocketEvent("CreateRoom", roomName);
+                SocketEvent socketEvent = new SocketEvent("CreateRoom", roomName, "", "", "", "");
 
                 string jsonStr = JsonUtility.ToJson(socketEvent);
 
@@ -94,7 +130,7 @@ namespace ChatWebSocketWithJson
         {
             if (ws.ReadyState == WebSocketState.Open)
             {
-                SocketEvent socketEvent = new SocketEvent("JoinRoom", roomName);
+                SocketEvent socketEvent = new SocketEvent("JoinRoom", roomName, "", "" ,"", "");
 
                 string jsonStr = JsonUtility.ToJson(socketEvent);
 
@@ -107,7 +143,30 @@ namespace ChatWebSocketWithJson
         {
             if (ws.ReadyState == WebSocketState.Open)
             {
-                SocketEvent socketEvent = new SocketEvent("LeaveRoom", roomName);
+                SocketEvent socketEvent = new SocketEvent("LeaveRoom", roomName, "", "", "", "");
+
+                string jsonStr = JsonUtility.ToJson(socketEvent);
+
+
+                ws.Send(jsonStr);
+
+                sendText.text = "";
+                receiveText.text = "";         
+            }
+        }
+        public void LogIn()
+        {
+            if (IDnameLogin.text == "" || PassLogin.text == "")
+            {
+                popupOk.SetActive(true);
+                Oktext.text = "Please input all field";
+                return;
+            }
+
+
+            if (ws.ReadyState == WebSocketState.Open)
+            {
+                SocketEvent socketEvent = new SocketEvent("Login", "", IDnameLogin.text, "", PassLogin.text, "");
 
                 string jsonStr = JsonUtility.ToJson(socketEvent);
 
@@ -115,6 +174,45 @@ namespace ChatWebSocketWithJson
 
             }
         }
+
+        public void Moveregiter()
+        {
+            regiterInput.SetActive(true);
+            loginInput.SetActive(false);
+        }
+
+        public void Regiter()
+        {
+            if (idInput.text == "" || passusernameIP.text == "" || nameInput.text == "")
+            {
+                popupOk.SetActive(true);
+                Oktext.text = "Please input all field";
+                return;
+            }
+            else if (passusernameIP.text != REpassusernameIP.text)
+            {
+                popupOk.SetActive(true);
+                Oktext.text = "Password not match";
+                return;
+            }
+            
+
+
+            else if (ws.ReadyState == WebSocketState.Open)
+            {
+                SocketEvent socketEvent = new SocketEvent("Regiter", "", IDnameIP.text, nameIP.text, passusernameIP.text, "");
+
+                string jsonStr = JsonUtility.ToJson(socketEvent);
+
+                ws.Send(jsonStr);
+
+            }
+        }
+        public void Closepopup()
+        {
+            popupOk.SetActive(false);
+        }
+
 
         public void Disconnect()
         {
@@ -124,10 +222,18 @@ namespace ChatWebSocketWithJson
         
         public void SendMessage()
         {
+            print(sendM);
             if (inputText.text == "" || ws.ReadyState != WebSocketState.Open)
                 return;
+            SocketEvent socketEvent = new SocketEvent("SendMessage", "", "", sendM, "", inputText.text);
 
-            ws.Send(inputText.text);
+            //MessageData messageData = new MessageData();
+            //messageData.username = inputUsername.text;
+            //messageData.message = inputText.text;
+
+            string toJsonStr = JsonUtility.ToJson(socketEvent);
+
+            ws.Send(toJsonStr);
             inputText.text = "";
         }
 
@@ -144,17 +250,22 @@ namespace ChatWebSocketWithJson
 
         public void Getserver()
         {
-            if (tempMessageString != null && tempMessageString != "")
+            if (string.IsNullOrEmpty(tempMessageString) == false)
             {
+                
+
                 SocketEvent getserverData = JsonUtility.FromJson<SocketEvent>(tempMessageString);
                 Debug.Log(getserverData.eventName);
                 Debug.Log(getserverData.data);
+
                 if (getserverData.eventName == "CreateRoom")
                 {
 
                     if (getserverData.data == "Success")
                     {
-
+                        print(getserverData.userName);
+                        NameroomChat = getserverData.userName;
+                        ShowRoomname.text = NameroomChat;
                         rootConnection.SetActive(false);
                         rootMessenger.SetActive(true);
                         closeMenu.SetActive(false);
@@ -162,7 +273,9 @@ namespace ChatWebSocketWithJson
                     }
                     else if (getserverData.data == "fail")
                     {
-                        popupCereate.SetActive(true);
+                        popupOk.SetActive(true);
+                        Oktext.text = "Can't CearteRoom";
+
                     }
 
                 }
@@ -170,13 +283,17 @@ namespace ChatWebSocketWithJson
                 {
                     if (getserverData.data == "Success")
                     {
+
+                        NameroomChat = getserverData.userName;
+                        ShowRoomname.text = NameroomChat;
                         rootConnection.SetActive(false);
                         rootMessenger.SetActive(true);
                         closeMenu.SetActive(false);
                     }
                     else if (getserverData.data == "fail")
                     {
-                        popupJoin.SetActive(true);
+                        popupOk.SetActive(true);
+                        Oktext.text = "Can't ConnecRoom";
                     }
                 }
                 else if (getserverData.eventName == "LeaveRoom")
@@ -185,8 +302,58 @@ namespace ChatWebSocketWithJson
                     rootMessenger.SetActive(false);
                     closeMenu.SetActive(true);
                 }
-                tempMessageString = "";
+                else if (getserverData.eventName == "Login") //Login
+                {
+                    if (getserverData.data == "Success")
+                    {
+                        Getname.text = getserverData.userName;
+                        sendM = Getname.text;
+                        Debug.Log(getserverData.userName);
+                        rootConnection.SetActive(false);
+                        rootMessenger.SetActive(false);
+                        closeMenu.SetActive(true);
+                        loginInput.SetActive(false);
+                        regiterInput.SetActive(false);
+                    }
+                    else if (getserverData.data == "fail")
+                    {
+                        popupOk.SetActive(true);
+                        Oktext.text = "Login fail Please try again";
+                    }                   
+                }
+                else if (getserverData.eventName == "Regiter")
+                {
+                    if (getserverData.data == "Success")
+                    {
+                        regiterInput.SetActive(false);
+                        rootConnection.SetActive(false);
+                        rootMessenger.SetActive(false);
+                        closeMenu.SetActive(false);
+                        loginInput.SetActive(true);
+                    }
+                    else if (getserverData.data == "fail")
+                    {
+                        popupOk.SetActive(true);
+                        Oktext.text = "This ID cannot be used.";
+                    }
+                }
+                else if (getserverData.eventName == "SendMessage")
+                {
+                    
+                    //print(Getname.text);
+                    if (getserverData.userName == sendM)
+                    {
+                        sendText.text += getserverData.userName + " : " + getserverData.textUInput + "\n";
+                        receiveText.text += "\n";
+                    }
+                    else
+                    {
+                        sendText.text += "\n";
+                        receiveText.text += getserverData.userName + " : " + getserverData.textUInput + "\n";
+                    }
+                }
 
+                tempMessageString = "";
             }
         }
 
@@ -194,11 +361,14 @@ namespace ChatWebSocketWithJson
         {
             Debug.Log(messageEventArgs.Data);
             tempMessageString = messageEventArgs.Data;
+
+            
         }
 
         
     }
 
 }
+
 
 
